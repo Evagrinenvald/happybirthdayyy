@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffe6f2;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #passwordSection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        #passwordInput {
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 50px;
+            border: 2px solid #ff66b2;
+            text-align: center;
+            width: 150px;
+            background-color: white;
+        }
+        .num-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .num-btn {
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+        .zero-btn {
+            grid-column: span 3;
+            justify-self: center;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .action-btn {
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 120px;
+        }
+        #hint {
+            display: none;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            width: 60%;
+        }
+        #mainContent {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6f2;
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .love-button {
+            background-color: #ff66b2;
+            border: none;
+            color: white;
+            padding: 20px;
+            font-size: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .love-button:hover {
+            background-color: #d63384;
+            transform: scale(1.1);
+        }
+        .note {
+            display: none;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 60%;
+        }
+        .note.show {
+            display: block;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        #cat {
+            position: absolute;
+            width: 80px;
+            bottom: 10px;
+            left: 0;
+            animation: moveCat 5s linear infinite alternate;
+        }
+        @keyframes moveCat {
+            0% { left: 0; }
+            100% { left: calc(100% - 80px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Первый экран: Ввод пароля -->
+    <div id="passwordSection">
+        <h1>Введи пароль</h1>
+        <input type="password" id="passwordInput" readonly>
+        <div class="num-buttons">
+            <button class="num-btn" onclick="addNumber(1)">1</button>
+            <button class="num-btn" onclick="addNumber(2)">2</button>
+            <button class="num-btn" onclick="addNumber(3)">3</button>
+            <button class="num-btn" onclick="addNumber(4)">4</button>
+            <button class="num-btn" onclick="addNumber(5)">5</button>
+            <button class="num-btn" onclick="addNumber(6)">6</button>
+            <button class="num-btn" onclick="addNumber(7)">7</button>
+            <button class="num-btn" onclick="addNumber(8)">8</button>
+            <button class="num-btn" onclick="addNumber(9)">9</button>
+            <button class="num-btn zero-btn" onclick="addNumber(0)">0</button>
+        </div>
+        <div class="button-group">
+            <button class="action-btn" onclick="unlockContent()">Войти</button>
+            <button class="action-btn" onclick="clearPassword()">Очистить</button>
+            <button class="action-btn" onclick="showHint()">Подсказка</button>
+        </div>
+        <p id="hint">4 апреля в это время будут вайбы</p>
+    </div>
+
+    <!-- Второй экран: Сердечки -->
+    <div id="mainContent">
+        <h1>Нажми на сердечко ❤️</h1>
+        <div class="button-container">
+            <button class="love-button" onclick="showNote(0)">❤️</button>
+            <button class="love-button" onclick="showNote(1)">❤️</button>
+            <button class="love-button" onclick="showNote(2)">❤️</button>
+            <button class="love-button" onclick="showNote(3)">❤️</button>
+            <button class="love-button" onclick="showNote(4)">❤️</button>
+            <button class="love-button" onclick="showNote(5); startConfetti()">❤️</button>
+        </div>
+        <p class="note" id="note0">МИШАААА С ДНЕМ РОЖДЕНИЯ</p>
+        <p class="note" id="note1">Желаю тебе всего самого наилучшего и надеюсь на множество счастливых моментов вместе ❤️</p>
+        <p class="note" id="note2">Твои сообщения заставляют меня улыбаться, а твои комплименты поднимают настроение </p>
+        <p class="note" id="note3">Спасибо тебе за все приятные воспоминания 💌</p>
+        <p class="note" id="note4">Очень очень жду новых совместных моментов (4 апреля 4:55!!!!!)🌎❤️</p>
+        <p class="note" id="note5">Поздравляю тебя, солнцеееее!!! ☀️ ❤️</p>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
+    
+    <img id="cat" src="https://cdn-icons-png.flaticon.com/512/1864/1864514.png" alt="Котик">
+
+    <script>
+        function addNumber(num) {
+            let input = document.getElementById("passwordInput");
+            input.value += num;
+        }
+
+        function unlockContent() {
+            const password = document.getElementById("passwordInput").value;
+            
+            if (password === "455") {
+                document.getElementById("passwordSection").remove();
+                document.getElementById("mainContent").style.display = "flex";
+            } else {
+                alert("Неправильный пароль");
+            }
+        }
+
+        function clearPassword() {
+            document.getElementById("passwordInput").value = "";
+        }
+
+        function showHint() {
+            document.getElementById("hint").style.display = "block";
+        }
+
+        function showNote(index) {
+            document.querySelectorAll('.note').forEach(n => n.classList.remove('show'));
+            document.getElementById('note' + index).classList.add('show');
+            
+            if (index === 5) { 
+                startConfetti(); 
+            }
+        }
+
+        function startConfetti() {
+            var confettiSettings = { target: 'confetti-canvas' };
+            var confetti = new ConfettiGenerator(confettiSettings);
+            confetti.render();
+
+            setTimeout(() => {
+                document.getElementById('confetti-canvas').remove();
+            }, 5000); // Остановит конфетти через 5 секунд
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/confetti-js"></script>
+</body>
+</html>
